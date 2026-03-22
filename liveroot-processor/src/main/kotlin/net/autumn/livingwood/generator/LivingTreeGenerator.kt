@@ -48,6 +48,7 @@ class LivingTreeGenerator(
                     }
                     handleEnum(clazz, clazz.simpleName.asString(), propertyName, lines, nameAggregator)
                 }
+
                 ClassKind.OBJECT -> handleObject(clazz, clazz.simpleName.asString(), lines, nameAggregator)
                 else -> logger.error("@Growth can only be applied to enum classes or objects", clazz)
             }
@@ -57,7 +58,7 @@ class LivingTreeGenerator(
 
         val validFiles = classes.mapNotNull { it.containingFile }
             .toTypedArray()
-            .takeIf { it.isEmpty() } ?: return
+            .takeIf { it.isNotEmpty() } ?: return
 
         val file = codeGenerator.createNewFile(
             Dependencies(aggregating = false, *validFiles),
