@@ -9,10 +9,27 @@ dependencies {
 
 loom {
     splitEnvironmentSourceSets()
+}
+
+val mainSourceSet = sourceSets["main"]
+val clientSourceSet = sourceSets["client"]
+
+val dataSourceSet = sourceSets.create("data") {
+    kotlin.srcDir("src/data/kotlin")
+    resources.srcDir("src/data/resources")
+
+    compileClasspath += mainSourceSet.compileClasspath + mainSourceSet.output
+    compileClasspath += clientSourceSet.compileClasspath + clientSourceSet.output
+    runtimeClasspath += mainSourceSet.runtimeClasspath + mainSourceSet.output
+    runtimeClasspath += clientSourceSet.runtimeClasspath + clientSourceSet.output
+}
+
+loom {
     mods {
         register("liveroot") {
             sourceSet(sourceSets["main"])
             sourceSet(sourceSets["client"])
+            sourceSet(sourceSets["data"])
         }
     }
 }

@@ -1,3 +1,31 @@
+## 📫 Contact Info
+
+- Email: `shinigami7x@proton.me`
+- Discord: `chronictsuki`  
+  *(Discord may not be checked frequently.)*
+
+---
+
+## Licensing
+
+- All code is released under the **GNU GPL v3.0** license [HERE](LICENSE).
+- All non-code assets are licensed under **CC BY-NC-SA 4.0 International** [HERE](LICENSE.assets).
+
+See the `LICENSE` file(s) for full details.
+
+---
+
+## Acknowledgements
+
+Credit for the icon asset goes to:
+
+- [TeamTwilight](https://github.com/TeamTwilight)
+- [Benimatic](https://github.com/Benimatic)
+
+Be sure to check out their project.
+
+---
+
 ## Current Supported Version
 
 - `26.1`
@@ -90,32 +118,3 @@ enum class BlockTags(
     EXAMPLE_TAG(TODO("..."))
 }
 ```
-
----
-
-## Licensing
-
-- All code is released under the **GNU GPL v3.0** license [HERE](LICENSE).
-- All non-code assets are licensed under **CC BY-NC-SA 4.0 International** [HERE](LICENSE.assets).
-
-See the `LICENSE` file(s) for full details.
-
----
-
-## Acknowledgements
-
-Credit for the icon asset goes to:
-
-- [TeamTwilight](https://github.com/TeamTwilight)
-- [Benimatic](https://github.com/Benimatic)
-
-Be sure to check out their project.
-
----
-
-## 📫 Contact Info
-
-- Email: `shinigami7x@proton.me`
-- Discord: `chronictsuki`  
-  *(Discord may not be checked frequently.)*
-
