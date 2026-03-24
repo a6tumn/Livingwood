@@ -19,5 +19,9 @@ enum class BlockType {
     FENCE_GATE,
     BUTTON,
     PRESSURE_PLATE,
-    SHELF;
+    SHELF,
+    SIGN,
+    WALL_SIGN,
+    HANGING_SIGN,
+    WALL_HANGING_SIGN;
 }

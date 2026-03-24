@@ -50,6 +50,7 @@ tasks.withType<JavaCompile>().configureEach { options.release = 25 }
 java { sourceCompatibility = JavaVersion.VERSION_25; targetCompatibility = JavaVersion.VERSION_25 }
 
 tasks.jar {
+    from(dataSourceSet.output)
     inputs.property("archivesName", libs.versions.archives.base.name)
     from("LICENSE") { rename { "${it}_${libs.versions.archives.base.name}" } }
 }

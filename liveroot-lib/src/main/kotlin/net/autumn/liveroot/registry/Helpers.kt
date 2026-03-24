@@ -7,8 +7,7 @@ import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab
 import net.fabricmc.fabric.api.`object`.builder.v1.block.entity.FabricBlockEntityTypeBuilder
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Registry
-import net.minecraft.core.particles.ParticleOptions
-import net.minecraft.core.particles.ParticleType
+import net.minecraft.core.particles.SimpleParticleType
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
@@ -99,40 +98,40 @@ fun <T : BlockEntity> registerBlockEntityType(
         FabricBlockEntityTypeBuilder.create(factory, *blocks).build()
     )
 
-fun registerFoliagePlacerType(
+fun <T : FoliagePlacer>registerFoliagePlacerType(
     name: String,
-    codec: MapCodec<out FoliagePlacer>
-): FoliagePlacerType<out FoliagePlacer> =
+    codec: MapCodec<T>
+): FoliagePlacerType<T> =
     Registry.register(
         BuiltInRegistries.FOLIAGE_PLACER_TYPE,
         name,
         FoliagePlacerType(codec)
     )
 
-fun registerTreeDecoratorType(
+fun <T : TreeDecorator>registerTreeDecoratorType(
     name: String,
-    codec: MapCodec<out TreeDecorator>
-): TreeDecoratorType<out TreeDecorator> =
+    codec: MapCodec<T>
+): TreeDecoratorType<T> =
     Registry.register(
         BuiltInRegistries.TREE_DECORATOR_TYPE,
         name,
         TreeDecoratorType(codec)
     )
 
-fun registerTrunkPlacerType(
+fun <T : TrunkPlacer>registerTrunkPlacerType(
     name: String,
-    codec: MapCodec<out TrunkPlacer>
-): TrunkPlacerType<out TrunkPlacer> =
+    codec: MapCodec<T>
+): TrunkPlacerType<T> =
     Registry.register(
         BuiltInRegistries.TRUNK_PLACER_TYPE,
         name,
         TrunkPlacerType(codec)
     )
 
-fun <T : ParticleOptions>registerParticleType(
+fun registerParticleType(
     namespaceAndPath: Identifier,
-    particleType: ParticleType<T>
-): ParticleType<T> =
+    particleType: SimpleParticleType
+): SimpleParticleType =
     Registry.register(
         BuiltInRegistries.PARTICLE_TYPE,
         namespaceAndPath,
