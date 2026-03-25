@@ -87,7 +87,7 @@ class LivingTreeGenerator(
             return
         }
 
-        clazz.declarations.filterIsInstance<KSClassDeclaration>().forEach { entry ->
+        clazz.declarations.filterIsInstance<KSClassDeclaration>().filter { it.classKind != ClassKind.OBJECT || it.simpleName.asString() != "Companion" }.forEach { entry ->
             if (entry.rotten()) {
                 logger.info("Skipping enum constant '${entry.simpleName.asString()}' due to @Rot")
                 return@forEach
