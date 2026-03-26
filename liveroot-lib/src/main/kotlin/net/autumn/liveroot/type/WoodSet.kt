@@ -287,11 +287,6 @@ data class WoodSet(
             pressurePlate,
             shelf
         )
-
-        println("Sign: $sign")
-        println("WallSign: $wallSign")
-        println("HangingSign: $hangingSign")
-        println("WallHangingSign: $wallHangingSign")
     }
 
     private fun validateEnabledBlocks() {
