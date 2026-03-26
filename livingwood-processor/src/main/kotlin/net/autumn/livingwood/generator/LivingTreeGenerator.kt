@@ -96,7 +96,7 @@ class LivingTreeGenerator(
             val entryName = entry.simpleName.asString()
             val baseName = NameResolver.resolve(entryName, className)
             val finalName = aggregator.add(baseName, className)
-            lines += "val $finalName = $className.$entryName.$propertyName"
+            lines += "val $finalName by lazy { $className.$entryName.$propertyName }"
         }
     }
 
@@ -115,7 +115,7 @@ class LivingTreeGenerator(
             val name = prop.simpleName.asString()
             val baseName = NameResolver.resolve(name, className)
             val finalName = aggregator.add(baseName, className)
-            lines += "val $finalName = $className.$name"
+            lines += "val $finalName by lazy { $className.$name }"
         }
     }
 
