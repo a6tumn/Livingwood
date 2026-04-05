@@ -105,16 +105,20 @@ fun writeLivingTree(
     file: OutputStream,
     packageName: String,
     imports: ImportAggregator,
-    lines: MutableList<String>
+    lines: List<String>
 ) {
     file.bufferedWriter().use { writer ->
-        writer.appendLine("package $packageName\n")
+        writer.appendLine("package $packageName")
+        writer.appendLine()
         imports.writeTo(writer)
         writer.appendLine()
         writer.appendLine("object LivingTree {")
         writer.appendLine()
-        lines.forEach { writer.appendLine("    $it") }
-        writer.appendLine()
+        lines.forEach { block ->
+            block.lines().forEach { line ->
+                writer.appendLine("    $line")
+            }
+        }
         writer.appendLine("}")
     }
 }

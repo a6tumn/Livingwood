@@ -7,9 +7,7 @@ import com.google.devtools.ksp.symbol.ClassKind
 import com.google.devtools.ksp.symbol.KSAnnotated
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import net.autumn.livingwood.aggregator.ImportAggregator
-import net.autumn.livingwood.aggregator.NameAggregator
 import net.autumn.livingwood.resolver.ImportResolver
-import net.autumn.livingwood.resolver.NameResolver
 import net.autumn.livingwood.util.enums.AnnotationType
 import net.autumn.livingwood.util.enums.GeneratedClassName
 import net.autumn.livingwood.util.writeLivingTree
@@ -25,8 +23,7 @@ class LivingTreeGenerator(
         if (classes.isEmpty()) return
 
         val imports = ImportAggregator()
-        val lines = mutableListOf<String>()
-        val nameAggregator = NameAggregator()
+        val grouped = mutableMapOf<String, MutableList<String>>()
 
         classes.forEach { clazz ->
             ImportResolver.resolve(clazz)?.let { imports.add(it) }
@@ -38,23 +35,40 @@ class LivingTreeGenerator(
                 ?.value as? String
 
             when (clazz.classKind) {
-                ClassKind.ENUM_CLASS -> {
-                    if (propertyName.isNullOrBlank() || propertyName == "__UNSET__") {
+                ClassKind.OBJECT -> {
+                    if (propertyName.isNullOrBlank()) {
                         logger.error(
-                            "@Growth on enum '${clazz.simpleName.asString()}' must define a valid 'property'",
+                            "@Growth on '${clazz.simpleName.asString()}' must define a valid 'property'.",
                             clazz
                         )
                         return@forEach
                     }
-                    handleEnum(clazz, clazz.simpleName.asString(), propertyName, lines, nameAggregator)
+                }
+                else -> {
+                    logger.error("@Growth can only be applied to objects.", clazz)
+                    return@forEach
+                }
+            }
+
+            val entries = mutableListOf<String>()
+
+            clazz.getAllProperties().forEach { prop ->
+                if (prop.rotten()) {
+                    logger.info("Skipping property '${prop.simpleName.asString()}' due to @Rot.")
+                    return@forEach
                 }
 
-                ClassKind.OBJECT -> handleObject(clazz, clazz.simpleName.asString(), lines, nameAggregator)
-                else -> logger.error("@Growth can only be applied to enum classes or objects", clazz)
+                val name = prop.simpleName.asString()
+                entries += "${clazz.simpleName.asString()}.$name"
+            }
+
+            if (entries.isNotEmpty()) {
+                grouped.getOrPut(propertyName) { mutableListOf() }
+                    .addAll(entries)
             }
         }
 
-        if (lines.isEmpty()) return
+        if (grouped.isEmpty()) return
 
         val validFiles = classes.mapNotNull { it.containingFile }
             .toTypedArray()
@@ -66,6 +80,19 @@ class LivingTreeGenerator(
             GeneratedClassName.LIVING_TREE.simpleName
         )
 
+        val lines = mutableListOf<String>()
+
+        grouped.toSortedMap().forEach { (propertyName, entries) ->
+            val listName = "listOf${propertyName.replaceFirstChar { it.uppercase() }}"
+            lines += "val $listName = listOf("
+            entries.forEachIndexed { index, entry ->
+                val comma = if (index != entries.lastIndex) "," else ""
+                lines += "    $entry$comma"
+            }
+            lines += ")"
+            lines += ""
+        }
+
         writeLivingTree(
             file,
             packageName,
@@ -74,54 +101,9 @@ class LivingTreeGenerator(
         )
     }
 
-    private fun handleEnum(
-        clazz: KSClassDeclaration,
-        className: String,
-        propertyName: String,
-        lines: MutableList<String>,
-        aggregator: NameAggregator
-    ) {
-        val property = clazz.getAllProperties().firstOrNull { it.simpleName.asString() == propertyName }
-        if (property == null) {
-            logger.error("Property '$propertyName' not found in enum '$className'", clazz)
-            return
+    private fun KSAnnotated.rotten(): Boolean =
+        annotations.any {
+            it.annotationType.resolve().declaration.qualifiedName?.asString() ==
+                    AnnotationType.Rot.qualifiedName
         }
-
-        clazz.declarations.filterIsInstance<KSClassDeclaration>().filter { it.classKind != ClassKind.OBJECT || it.simpleName.asString() != "Companion" }.forEach { entry ->
-            if (entry.rotten()) {
-                logger.info("Skipping enum constant '${entry.simpleName.asString()}' due to @Rot")
-                return@forEach
-            }
-
-            val entryName = entry.simpleName.asString()
-            val baseName = NameResolver.resolve(entryName, className)
-            val finalName = aggregator.add(baseName, className)
-            lines += "val $finalName by lazy { $className.$entryName.$propertyName }"
-        }
-    }
-
-    private fun handleObject(
-        clazz: KSClassDeclaration,
-        className: String,
-        lines: MutableList<String>,
-        aggregator: NameAggregator
-    ) {
-        clazz.getAllProperties().forEach { prop ->
-            if (prop.rotten()) {
-                logger.info("Skipping property '${prop.simpleName.asString()}' due to @Rot")
-                return@forEach
-            }
-
-            val name = prop.simpleName.asString()
-            val baseName = NameResolver.resolve(name, className)
-            val finalName = aggregator.add(baseName, className)
-            lines += "val $finalName by lazy { $className.$name }"
-        }
-    }
-
-    private fun KSAnnotated.rotten(): Boolean {
-        return annotations.any {
-            it.annotationType.resolve().declaration.qualifiedName?.asString() == AnnotationType.Rot.qualifiedName
-        }
-    }
 }

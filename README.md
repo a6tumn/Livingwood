@@ -83,25 +83,17 @@ object Biome {
 ---
 
 - *@Growth*
-- Can be used to automatically link object fields or enum constants to a centralized registry lookup.
+- Can be used to lists of object fields in a centralized registry lookup.
 ```kotlin
 @Growth
 object Items {
   val EXAMPLE_ITEM: Item = TODO("...")
 }
 ```
-```kotlin
-@Growth("tagKey")
-enum class BlockTags(
-  val tagKey: TagKey<Block>
-) {
-    EXAMPLE_TAG(TODO("..."))
-}
-```
 ---
 
 - *@Rot*
-- Can be used on object fields or enum constants to exclude them from being added to the centralized registry lookup.
+- Can be used on object fields to exclude them from being added to the centralized registry lookup.
 ```kotlin
 @Growth
 object Items {
