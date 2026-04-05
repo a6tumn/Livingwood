@@ -119,6 +119,9 @@ fun writeLivingTree(
                 writer.appendLine("    $line")
             }
         }
+        writer.appendLine("    fun <T> List<T>.exclude(excludedItems: List<T>): List<T> {")
+        writer.appendLine("        return this.filter { it !in excludedItems }")
+        writer.appendLine("    }")
         writer.appendLine("}")
     }
 }
