@@ -9,6 +9,5 @@ pluginManagement {
 	}
 }
 
-include("liveroot-lib")
 include("liveroot-annotations")
 include("livingwood-processor")
