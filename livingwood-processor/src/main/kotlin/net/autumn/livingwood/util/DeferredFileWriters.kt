@@ -86,13 +86,18 @@ fun writeDataEntrypoint(
             val annotation = clazz.annotations.first()
             val type = annotation.getArgument("type")?.toString()
             if (type == "DYNAMIC_REGISTRY") {
+                val lookup = annotation.getArgument("lookup")?.toString()
+                    ?: run {
+                        logger.error("@DataEntrypoint with type DYNAMIC_REGISTRY requires a lookup", clazz)
+                        return@forEach
+                    }
                 val key = annotation.getArgument("key")?.toString()
                     ?: run {
                         logger.error("@DataEntrypoint with type DYNAMIC_REGISTRY requires a key", clazz)
                         return@forEach
                     }
                 writer.appendLine(
-                    "        registryBuilder.add(Registries.${key.uppercase()}, ${clazz.simpleName.asString()}::bootstrap)"
+                    "        registryBuilder.add($lookup.$key, ${clazz.simpleName.asString()}::bootstrap)"
                 )
             }
         }
