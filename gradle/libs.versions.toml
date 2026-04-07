@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.3.20"
-mod-version = "0.0.8"
+mod-version = "0.0.9"
 maven-group = "net.autumn.liveroot"
 processor-maven-group = "net.autumn.livingwood"
 

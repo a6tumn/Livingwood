@@ -34,7 +34,6 @@ class DataEntrypointGenerator(
             add("net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator")
             add("net.minecraft.core.RegistrySetBuilder")
             add("net.minecraft.core.registries.Registries")
-            add("io.autumn.twilight.registry.TwilightRegistries")
             classes.forEach { add(ImportResolver.resolve(it)) }
         }
 
