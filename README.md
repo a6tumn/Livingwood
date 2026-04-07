@@ -28,7 +28,7 @@ Be sure to check out their project.
 
 ## Current Supported Version
 
-- `26.2`
+- `26.2-snapshot-1`
 
 ---
 
