@@ -1,11 +1,3 @@
-## 📫 Contact Info
-
-- Email: `shinigami7x@proton.me`
-- Discord: `chronictsuki`  
-  *(Discord may not be checked frequently.)*
-
----
-
 ## Licensing
 
 - All code is released under the **GNU GPL v3.0** license [HERE](LICENSE).
@@ -71,7 +63,7 @@ class AdvancementProvider(
 }
 ```
 ```kotlin
-@DataEntrypoint(DataEntrypointType.DYNAMIC_REGISTRY, "BIOME")
+@DataEntrypoint(DataEntrypointType.DYNAMIC_REGISTRY, Registries::class, "BIOME")
 object Biome {
   fun bootstrap(
     context: BootstrapContext<Biome>
@@ -83,7 +75,7 @@ object Biome {
 ---
 
 - *@Growth*
-- Can be used to lists of object fields in a centralized registry lookup.
+- Can be used to generate lists of object fields in a centralized registry lookup.
 ```kotlin
 @Growth
 object Items {
