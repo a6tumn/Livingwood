@@ -4,5 +4,5 @@ package net.autumn.liveroot
 @Retention(AnnotationRetention.SOURCE)
 @Suppress("unused")
 annotation class Growth(
-    val property: String = "__UNSET__"
+    val property: String
 )

@@ -1,11 +1,3 @@
-## 📫 Contact Info
-
-- Email: `shinigami7x@proton.me`
-- Discord: `chronictsuki`  
-  *(Discord may not be checked frequently.)*
-
----
-
 ## Licensing
 
 - All code is released under the **GNU GPL v3.0** license [HERE](LICENSE).
@@ -28,7 +20,7 @@ Be sure to check out their project.
 
 ## Current Supported Version
 
-- `26.1`
+- `26.2-snapshot-1`
 
 ---
 
@@ -71,7 +63,7 @@ class AdvancementProvider(
 }
 ```
 ```kotlin
-@DataEntrypoint(DataEntrypointType.DYNAMIC_REGISTRY, "BIOME")
+@DataEntrypoint(DataEntrypointType.DYNAMIC_REGISTRY, Registries::class, "BIOME")
 object Biome {
   fun bootstrap(
     context: BootstrapContext<Biome>
@@ -83,25 +75,17 @@ object Biome {
 ---
 
 - *@Growth*
-- Can be used to automatically link object fields or enum constants to a centralized registry lookup.
+- Can be used to generate lists of object fields in a centralized registry lookup.
 ```kotlin
 @Growth
 object Items {
   val EXAMPLE_ITEM: Item = TODO("...")
 }
 ```
-```kotlin
-@Growth("tagKey")
-enum class BlockTags(
-  val tagKey: TagKey<Block>
-) {
-    EXAMPLE_TAG(TODO("..."))
-}
-```
 ---
 
 - *@Rot*
-- Can be used on object fields or enum constants to exclude them from being added to the centralized registry lookup.
+- Can be used on object fields to exclude them from being added to the centralized registry lookup.
 ```kotlin
 @Growth
 object Items {

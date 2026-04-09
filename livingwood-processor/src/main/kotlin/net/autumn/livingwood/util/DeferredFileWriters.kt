@@ -86,13 +86,18 @@ fun writeDataEntrypoint(
             val annotation = clazz.annotations.first()
             val type = annotation.getArgument("type")?.toString()
             if (type == "DYNAMIC_REGISTRY") {
+                val lookup = annotation.getArgument("lookup")?.toString()
+                    ?: run {
+                        logger.error("@DataEntrypoint with type DYNAMIC_REGISTRY requires a lookup", clazz)
+                        return@forEach
+                    }
                 val key = annotation.getArgument("key")?.toString()
                     ?: run {
                         logger.error("@DataEntrypoint with type DYNAMIC_REGISTRY requires a key", clazz)
                         return@forEach
                     }
                 writer.appendLine(
-                    "        registryBuilder.add(Registries.${key.uppercase()}, ${clazz.simpleName.asString()}::bootstrap)"
+                    "        registryBuilder.add($lookup.$key, ${clazz.simpleName.asString()}::bootstrap)"
                 )
             }
         }
@@ -105,16 +110,23 @@ fun writeLivingTree(
     file: OutputStream,
     packageName: String,
     imports: ImportAggregator,
-    lines: MutableList<String>
+    lines: List<String>
 ) {
     file.bufferedWriter().use { writer ->
-        writer.appendLine("package $packageName\n")
+        writer.appendLine("package $packageName")
+        writer.appendLine()
         imports.writeTo(writer)
         writer.appendLine()
         writer.appendLine("object LivingTree {")
         writer.appendLine()
-        lines.forEach { writer.appendLine("    $it") }
-        writer.appendLine()
+        lines.forEach { block ->
+            block.lines().forEach { line ->
+                writer.appendLine("    $line")
+            }
+        }
+        writer.appendLine("    fun <T> List<T>.exclude(excludedItems: List<T>): List<T> {")
+        writer.appendLine("        return this.filter { it !in excludedItems }")
+        writer.appendLine("    }")
         writer.appendLine("}")
     }
 }
