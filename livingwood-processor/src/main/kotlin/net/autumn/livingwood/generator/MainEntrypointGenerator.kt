@@ -20,8 +20,10 @@ class MainEntrypointGenerator(
     ) {
         if (functions.isEmpty()) return
 
-        val validFiles = functions.mapNotNull { it.containingFile }.toTypedArray()
-        if (validFiles.isEmpty()) return
+        val validFiles = functions
+            .mapNotNull { it.containingFile }
+            .toTypedArray()
+            .takeIf { it.isNotEmpty() } ?: return
 
         val file = codeGenerator.createNewFile(
             dependencies = Dependencies(aggregating = false, *validFiles),
@@ -38,10 +40,11 @@ class MainEntrypointGenerator(
                     logger.error(msg, node)
                     null
                 }?.also { call ->
-                    val className = call.substringBefore("(").substringBeforeLast(".")
-                    if (className.isNotEmpty() && !className.contains("(")) {
-                        imports.add(className)
-                    }
+                    val className = call
+                        .substringBefore("(")
+                        .substringBeforeLast(".")
+
+                    if (className.isNotEmpty() && !className.contains("(")) imports.add(className)
                 }
             } catch (ex: Exception) {
                 logger.error(

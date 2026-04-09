@@ -1,3 +1,5 @@
+group = "net.autumn.livingwood"
+
 repositories {
     mavenCentral()
 }
@@ -10,7 +12,7 @@ publishing {
     publications {
         register<MavenPublication>("MavenJava") {
             from(components["java"])
-            groupId = libs.versions.processor.maven.group.get()
+            groupId = group.toString()
             artifactId = "processor"
             version = libs.versions.mod.version.get()
         }

@@ -26,7 +26,8 @@ class LivingTreeGenerator(
         val grouped = mutableMapOf<String, MutableList<String>>()
 
         classes.forEach { clazz ->
-            ImportResolver.resolve(clazz)?.let { imports.add(it) }
+            ImportResolver.resolve(clazz)
+                ?.let { imports.add(it) }
 
             val propertyName = clazz.annotations
                 .firstOrNull()
@@ -103,7 +104,6 @@ class LivingTreeGenerator(
 
     private fun KSAnnotated.rotten(): Boolean =
         annotations.any {
-            it.annotationType.resolve().declaration.qualifiedName?.asString() ==
-                    AnnotationType.Rot.qualifiedName
+            it.annotationType.resolve().declaration.qualifiedName?.asString() == AnnotationType.Rot.qualifiedName
         }
 }

@@ -15,11 +15,7 @@ fun <T : KSAnnotated> Resolver.collect(
     getSymbolsWithAnnotation(annotation)
         .filterIsInstance(type)
         .forEach { symbol ->
-            if (!symbol.validate()) {
-                deferred?.add(symbol)
-            } else {
-                result += symbol
-            }
+            if (!symbol.validate()) deferred?.add(symbol) else result += symbol
         }
 
     return result

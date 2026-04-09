@@ -1,8 +1,6 @@
 [versions]
 kotlin = "2.3.20"
-mod-version = "0.0.9"
-maven-group = "net.autumn.liveroot"
-processor-maven-group = "net.autumn.livingwood"
+mod-version = "0.1.0"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
