@@ -8,6 +8,7 @@ import com.google.devtools.ksp.symbol.Modifier
 import net.autumn.livingwood.util.enums.AnnotationType
 
 object FunctionCallResolver {
+
     fun resolve(
         function: KSFunctionDeclaration,
         annotationType: AnnotationType,

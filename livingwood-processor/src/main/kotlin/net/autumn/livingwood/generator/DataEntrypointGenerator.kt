@@ -19,7 +19,8 @@ class DataEntrypointGenerator(
     ) {
         if (classes.isEmpty()) return
 
-        val validFiles = classes.mapNotNull { it.containingFile }
+        val validFiles = classes
+            .mapNotNull { it.containingFile }
             .toTypedArray()
             .takeIf { it.isNotEmpty() } ?: return
 
@@ -34,7 +35,9 @@ class DataEntrypointGenerator(
             add("net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator")
             add("net.minecraft.core.RegistrySetBuilder")
             add("net.minecraft.core.registries.Registries")
-            classes.forEach { add(ImportResolver.resolve(it)) }
+            classes.forEach {
+                add(ImportResolver.resolve(it))
+            }
         }
 
         writeDataEntrypoint(
