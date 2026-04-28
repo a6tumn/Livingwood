@@ -62,10 +62,9 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 === Build Configuration
 
-[tabs]
+.Kotlin DSL
+[%collapsible]
 ====
-Kotlin DSL::
-+
 [source,kotlin]
 ----
 plugins {
@@ -79,9 +78,11 @@ dependencies {
     ksp(libs.livingwood)
 }
 ----
+====
 
-Groovy DSL::
-+
+.Groovy DSL
+[%collapsible]
+====
 [source,groovy]
 ----
 plugins {
