@@ -1,7 +1,11 @@
+![liveroot](docs/title.png)
+
+---
+
 ## Licensing
 
-- All code is released under the **GNU GPL v3.0** license [HERE](LICENSE).
-- All non-code assets are licensed under **CC BY-NC-SA 4.0 International** [HERE](LICENSE.assets).
+- All code is released under the **GNU GPL v3.0** license [HERE](docs/legal/LICENSE).
+- All non-code assets are licensed under **CC BY-NC-SA 4.0 International** [HERE](docs/legal/LICENSE.assets).
 
 See the `LICENSE` file(s) for full details.
 
@@ -18,87 +22,67 @@ Be sure to check out their project.
 
 ---
 
-## Current Supported Version
+## Versions
 
-- `26.2-snapshot-3`
+- Latest Mod Version - `0.1.1`
+- Supported Minecraft Version(s) - `26.2`
+- Supported Kotlin Version - `2.3.20`
 
 ---
 
 ## Annotations
 
-- *@MainEntrypoint*
-- Can be used to automatically call functions from a generated entrypoint file.
-```kotlin
-@MainEntrypoint
-fun initialize() {
-    ModId.LOGGER.info("Registering example for ${ModId.NAMESPACE}")
-}
-```
+- An explanation of each annotation can be found [HERE](docs/annotations.md).
+
 ---
 
-- *@ClientEntrypoint*
-- Can be used to automatically call functions from a generated client entrypoint file.
-```kotlin
-@ClientEntrypoint
-fun initializeClient() {
-    ModId.LOGGER.info("Registering example for ${ModId.NAMESPACE}")
-}
-```
----
+## Getting Started
 
-- *@DataEntrypoint*
-- Can be used on classes to automatically add data providers or on objects to build dynamic registries.
-```kotlin
-@DataEntrypoint(DataEntrypointType.DATA_PROVIDER)
-class AdvancementProvider(
-  output: FabricPackOutput,
-  registriesFuture: CompletableFuture<HolderLookup.Provider>
-) : FabricAdvancementProvider(output, registriesFuture) {
-  override fun generateAdvancement(
-    registryLookup: HolderLookup.Provider,
-    consumer: Consumer<AdvancementHolder>
-  ) {
-      TODO("...")
-  }
-}
-```
-```kotlin
-@DataEntrypoint(DataEntrypointType.DYNAMIC_REGISTRY, Registries::class, "BIOME")
-object Biome {
-  fun bootstrap(
-    context: BootstrapContext<Biome>
-  ) {
-    TODO("...")
-  }
-}
-```
----
+- Artifacts will be posted to Maven Central, make sure to add the repository to your project sources.
 
-- *@Growth*
-- Can be used to generate lists of object fields in a centralized registry lookup.
-```kotlin
-@Growth
-object Items {
-  val EXAMPLE_ITEM: Item = TODO("...")
-}
-```
----
+### Common
+#### *libs.versions.toml*
+```toml
+[versions]
+ksp = "2.3.5"
+liveroot = "0.1.1"
 
-- *@Rot*
-- Can be used on object fields to exclude them from being added to the centralized registry lookup.
+[libraries]
+liveroot = { module = "io.gitlab.tsuki-no-hikari:liveroot-annotations", version.ref = "liveroot"}
+livingwood = { module = "io.gitlab.tsuki-no-hikari:livingwood-processor", version.ref = "liveroot"}
+
+[plugins]
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+```
+
+### Kotlin DSL
+#### *build.gradle.kts*
 ```kotlin
-@Growth
-object Items {
-    @Rot
-    val EXAMPLE_ITEM: Item = TODO("...")
+plugins {
+    alias(libs.plugins.ksp)
+}
+
+// ...
+
+dependencies {
+    implementation(libs.liveroot)
+    ksp(libs.livingwood)
 }
 ```
-```kotlin
-@Growth("tagKey")
-enum class BlockTags(
-  val tagKey: TagKey<Block>
-) {
-    @Rot
-    EXAMPLE_TAG(TODO("..."))
+
+### Groovy DSL
+#### *build.gradle*
+```groovy
+plugins {
+    id 'com.google.devtools.ksp' version libs.versions.ksp.get()
+}
+
+// ...
+
+dependencies {
+    implementation libs.liveroot
+    ksp libs.livingwood
 }
 ```
+
+---
