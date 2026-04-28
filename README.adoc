@@ -20,6 +20,8 @@ An explanation of each annotation can be found link:docs/annotations.md[HERE].
 
 Artifacts will be posted to Maven Central, make sure to add the repository to your project sources.
 
+Official source code and packages can be found on https://gitlab.com/tsuki-no-hikari/Liveroot[GitLab], or mirrored on https://github.com/a6tumn/Liveroot[GitHub]
+
 === Common
 
 ==== libs.versions.toml
