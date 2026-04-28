@@ -2,26 +2,6 @@ image::docs/title.png[liveroot]
 
 '''
 
-== Licensing
-
-* All code is released under the *GNU GPL v3.0* license link:docs/legal/LICENSE[HERE].
-* All non-code assets are licensed under *CC BY-NC-SA 4.0 International* link:docs/legal/LICENSE.assets[HERE].
-
-See the `LICENSE` file(s) for full details.
-
-'''
-
-== Acknowledgements
-
-Credit for the icon asset goes to:
-
-* https://github.com/TeamTwilight[TeamTwilight]
-* https://github.com/Benimatic[Benimatic]
-
-Be sure to check out their project.
-
-'''
-
 == Versions
 
 * Latest Mod Version - `0.1.1`
@@ -97,3 +77,23 @@ dependencies {
 }
 ----
 ====
+
+== Licensing
+
+* All code is released under the *GNU GPL v3.0* license link:docs/legal/LICENSE[HERE].
+* All non-code assets are licensed under *CC BY-NC-SA 4.0 International* link:docs/legal/LICENSE.assets[HERE].
+
+See the `LICENSE` file(s) for full details.
+
+'''
+
+== Acknowledgements
+
+Credit for the icon asset goes to:
+
+* https://github.com/TeamTwilight[TeamTwilight]
+* https://github.com/Benimatic[Benimatic]
+
+Be sure to check out their project.
+
+'''
