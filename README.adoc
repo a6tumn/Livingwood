@@ -89,7 +89,7 @@ See the `LICENSE` file(s) for full details.
 
 == Acknowledgements
 
-Credit for the icon asset goes to:
+Credit for the icon asset on GitLab goes to:
 
 * https://github.com/TeamTwilight[TeamTwilight]
 * https://github.com/Benimatic[Benimatic]
